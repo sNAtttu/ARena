@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 114132359647391986}
   - component: {fileID: 114179642484108716}
   - component: {fileID: 114893374383746978}
+  - component: {fileID: 114283859851471890}
   - component: {fileID: 54970018407581750}
   m_Layer: 0
   m_Name: Player
@@ -2261,6 +2262,17 @@ MonoBehaviour:
   - {fileID: 1024163056334020}
   - {fileID: 1127506335498486}
   touchHitPlayer: 0
+--- !u!114 &114283859851471890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1270642592618054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35ef92df3ca9b2f468d5b2259f598cc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114893374383746978
 MonoBehaviour:
   m_ObjectHideFlags: 1
