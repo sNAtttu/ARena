@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GoogleARCore;
 using UnityEngine;
 using UnityEngine.Rendering;
+using System.Linq;
 
 public class SurfacePlacerController : MonoBehaviour
 {
@@ -38,10 +39,13 @@ public class SurfacePlacerController : MonoBehaviour
     private bool playerInitiated = false;
 
     private GameObject instantiatedObject;
+    private DebugOverlay debugOverlay;
 
-    /// <summary>
-    /// The Unity Update() method.
-    /// </summary>
+    private void Start()
+    {
+        debugOverlay = FindObjectOfType<DebugOverlay>();
+    }
+
     public void Update()
     {
 
@@ -69,6 +73,8 @@ public class SurfacePlacerController : MonoBehaviour
 
         // Disable the snackbar UI when no planes are valid.
         Frame.GetPlanes(m_AllPlanes);
+
+        WriteDebugInformationToScreen();
 
         // If the player has not touched the screen, we are done with this update.
         Touch touch;
@@ -109,6 +115,26 @@ public class SurfacePlacerController : MonoBehaviour
             // Make Andy model a child of the anchor.
             instantiatedObject.transform.parent = anchor.transform;
             playerInitiated = true;
+        }
+    }
+
+    private void WriteDebugInformationToScreen()
+    {
+        if (m_NewPlanes.Count != m_AllPlanes.Count)
+        {
+            debugOverlay.SetFoundPlanesText(string.Format("Found planes: {0}", m_AllPlanes.Count));
+        }
+
+        if (m_AllPlanes.Count > 0)
+        {
+            float[] planeSizesX = m_AllPlanes.Select(p => p.ExtentX).ToArray();
+            float[] planeSizesZ = m_AllPlanes.Select(p => p.ExtentZ).ToArray();
+            List<string> planeSizeTexts = new List<string>();
+            for (int i = 0; i < m_AllPlanes.Count; i++)
+            {
+                planeSizeTexts.Add(string.Format("Plane {0} size X: {1} Z: {2}", i, planeSizesX[i], planeSizesZ[i]));
+            }
+            debugOverlay.SetPlaneSizesText(string.Join("\n", planeSizeTexts.ToArray()));
         }
     }
 }
