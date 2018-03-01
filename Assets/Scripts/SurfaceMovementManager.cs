@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,26 @@ public class SurfaceMovementManager : MonoBehaviour
     // FOR DEBUGGING
     private void OnMouseDown()
     {
+        if (Player == null)
+        {
+            Player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         Vector3 worldPos = GetInputWorldPosition(Input.mousePosition);
-        playerMovementManager.MovePlayer(worldPos);
+        float roundedClickedPosition = (float)Math.Round(worldPos.y, 2, MidpointRounding.ToEven);
+        float roundedPlayerPosition = (float)Math.Round(Player.transform.position.y, 2, MidpointRounding.ToEven);
+        if(roundedPlayerPosition == roundedClickedPosition)
+        {
+            playerMovementManager.MovePlayer(worldPos);
+        }
+        else if(roundedClickedPosition < roundedPlayerPosition)
+        {
+            Debug.Log("Player is going to platform which is lower than player. Drop.");
+        }
+        else if (roundedClickedPosition > roundedPlayerPosition)
+        {
+            Debug.Log("Player is going to platform which is higher than player. Jump.");
+        }
     }
 
     private void Update()
