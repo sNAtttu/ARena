@@ -23,6 +23,11 @@ public class PlayerUtilities : MonoBehaviour
         return inputFSM.ActiveStateName == Utilities.PlayerConstants.StateWalking;
     }
 
+    public bool IsPlayerJumping()
+    {
+        return inputFSM.ActiveStateName == Utilities.PlayerConstants.StateJumpingDown || inputFSM.ActiveStateName == Utilities.PlayerConstants.StateJumpingUp;
+    }
+
     public bool IsPlayerMoving()
     {
         return inputFSM.ActiveStateName == Utilities.PlayerConstants.StateWalking || inputFSM.ActiveStateName == Utilities.PlayerConstants.StateRunning;

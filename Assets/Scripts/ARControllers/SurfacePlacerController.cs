@@ -5,6 +5,7 @@ using GoogleARCore;
 using UnityEngine;
 using UnityEngine.Rendering;
 using System.Linq;
+using System;
 
 public class SurfacePlacerController : MonoBehaviour
 {
@@ -91,12 +92,7 @@ public class SurfacePlacerController : MonoBehaviour
         {
             if (playerInitiated)
             {
-                if (instantiatedObject.GetComponent<PlayerInputManager>().touchHitPlayer)
-                {
-                    instantiatedObject.GetComponent<PlayerInputManager>().touchHitPlayer = false;
-                    return;
-                }
-                instantiatedObject.GetComponent<PlayerMovementManager>().MovePlayer(hit.Pose.position);
+                HandlePlayerMovement(hit);
                 return;
             }
             // CREATE ANCHOR USING TOUCH
@@ -116,6 +112,45 @@ public class SurfacePlacerController : MonoBehaviour
             instantiatedObject.transform.parent = anchor.transform;
             playerInitiated = true;
         }
+    }
+
+    /// <summary>
+    /// Sends information about clicked coordinates.
+    /// Function checks if the clicked position is on the same platform or does player need
+    /// to move up or down.
+    /// </summary>
+    /// <param name="hit"></param>
+    private void HandlePlayerMovement(TrackableHit hit)
+    {
+        var inputManager = instantiatedObject.GetComponent<PlayerInputManager>();
+        var movementManager = instantiatedObject.GetComponent<PlayerMovementManager>();
+
+        if (inputManager.touchHitPlayer)
+        {
+            inputManager.touchHitPlayer = false;
+            return;
+        }
+
+        Vector3 worldHitPos = hit.Pose.position;
+        Vector3 playerPos = instantiatedObject.transform.position;
+
+        float roundedClickedPosition = (float)Math.Round(worldHitPos.y, 2, MidpointRounding.ToEven);
+        float roundedPlayerPosition = (float)Math.Round(playerPos.y, 2, MidpointRounding.ToEven);
+
+        if (roundedPlayerPosition == roundedClickedPosition)
+        {
+            movementManager.MovePlayer(worldHitPos);
+        }
+        else if (roundedClickedPosition < roundedPlayerPosition)
+        {
+            movementManager.MovePlayerToLowerPlatform(worldHitPos);
+        }
+        else if (roundedClickedPosition > roundedPlayerPosition)
+        {
+            movementManager.MovePlayerToHigherPlatform(worldHitPos);
+        }
+
+        return;
     }
 
     private void WriteDebugInformationToScreen()

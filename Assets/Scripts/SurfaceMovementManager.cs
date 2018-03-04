@@ -31,11 +31,11 @@ public class SurfaceMovementManager : MonoBehaviour
         }
         else if(roundedClickedPosition < roundedPlayerPosition)
         {
-            Debug.Log("Player is going to platform which is lower than player. Drop.");
+            playerMovementManager.MovePlayerToLowerPlatform(worldPos);
         }
         else if (roundedClickedPosition > roundedPlayerPosition)
         {
-            Debug.Log("Player is going to platform which is higher than player. Jump.");
+            playerMovementManager.MovePlayerToHigherPlatform(worldPos);
         }
     }
 

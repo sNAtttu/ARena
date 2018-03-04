@@ -18,9 +18,14 @@ namespace Utilities
         public static readonly string EventWalk = "Walk";
         public static readonly string EventRun = "Run";
         public static readonly string EventStop = "Stop";
+        public static readonly string EventJumpUp = "JumpUp";
+        public static readonly string EventJumpDown = "JumpDown";
+        public static readonly string EventLand = "Land";
 
         public static readonly string StateWalking = "Walking";
         public static readonly string StateRunning = "Running";
+        public static readonly string StateJumpingUp = "JumpingUp";
+        public static readonly string StateJumpingDown = "JumpingDown"; 
     }
 }
 
