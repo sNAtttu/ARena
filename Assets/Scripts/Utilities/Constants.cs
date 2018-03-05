@@ -27,5 +27,25 @@ namespace Utilities
         public static readonly string StateJumpingUp = "JumpingUp";
         public static readonly string StateJumpingDown = "JumpingDown"; 
     }
+
+    public static class EnemyConstants
+    {
+        public static readonly string TagEnemyHead = "EnemyHead";
+        public static readonly string TagEnemyBody = "EnemyBody";
+        public static readonly string TagEnemyLeftArm = "EnemyLeftArm";
+        public static readonly string TagEnemyRightArm = "EnemyRightArm";
+
+        public static readonly string EventSelectHead = "SelectHead";
+        public static readonly string EventSelectBody = "SelectBody";
+        public static readonly string EventSelectLeftArm = "SelectLeftArm";
+        public static readonly string EventSelectRightArm = "SelectRightArm";
+
+        public static readonly string StateIdle = "Idle";
+        public static readonly string StateHeadSelected = "HeadSelected";
+        public static readonly string StateBodySelected = "BodySelected";
+        public static readonly string StateRightArmSelected = "RightArmSelected";
+        public static readonly string StateLeftArmSelected = "LeftArmSelected";
+    }
+
 }
 

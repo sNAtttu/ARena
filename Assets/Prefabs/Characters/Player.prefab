@@ -156,8 +156,9 @@ GameObject:
   - component: {fileID: 4227986918933696}
   - component: {fileID: 114132359647391986}
   - component: {fileID: 114179642484108716}
-  - component: {fileID: 114893374383746978}
   - component: {fileID: 114283859851471890}
+  - component: {fileID: 114763542498408576}
+  - component: {fileID: 114893374383746978}
   - component: {fileID: 54970018407581750}
   m_Layer: 0
   m_Name: Player
@@ -2518,7 +2519,7 @@ MonoBehaviour:
     locked: 0
     manualUpdate: 0
     keepDelayedEventsOnStateExit: 0
-    preprocessed: 1
+    preprocessed: 0
     ExposedEvents: []
     RestartOnEnable: 1
     EnableDebugFlow: 0
@@ -2563,11 +2564,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2139620070927c741a2690dc5c81801f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ColliderObjects:
-  - {fileID: 1251847833632186}
-  - {fileID: 1996628125842250}
-  - {fileID: 1024163056334020}
-  - {fileID: 1127506335498486}
   touchHitPlayer: 0
 --- !u!114 &114283859851471890
 MonoBehaviour:
@@ -2580,6 +2576,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35ef92df3ca9b2f468d5b2259f598cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114763542498408576
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1270642592618054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b1d1a4846ddce94e9d46b118812cb66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ColliderObjects:
+  - {fileID: 1024163056334020}
+  - {fileID: 1251847833632186}
+  - {fileID: 1127506335498486}
+  - {fileID: 1996628125842250}
 --- !u!114 &114893374383746978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2596,8 +2608,8 @@ MonoBehaviour:
   PlayerRotationSpeed: 3
   PlayerRunningRotationSpeed: 6
   PlayerJumpRotationSpeed: 5
-  PlayerJumpUpPower: 0.5
-  PlayerJumpDownPower: 0.3
+  PlayerJumpUpPower: 0.4
+  PlayerJumpDownPower: 0.2
   PlayerJumpDuration: 2
 --- !u!137 &137412816829777704
 SkinnedMeshRenderer:

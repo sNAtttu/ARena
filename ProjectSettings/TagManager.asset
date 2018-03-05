@@ -10,6 +10,10 @@ TagManager:
   - PlayerRightArm
   - PlayerLeftLeg
   - PlayerRightLeg
+  - EnemyBody
+  - EnemyHead
+  - EnemyLeftArm
+  - EnemyRightArm
   layers:
   - Default
   - TransparentFX
