@@ -139,7 +139,7 @@ public class SurfacePlacerController : MonoBehaviour
 
         if (roundedPlayerPosition == roundedClickedPosition)
         {
-            movementManager.MovePlayer(worldHitPos);
+            //movementManager.MovePlayer(worldHitPos);
         }
         else if (roundedClickedPosition < roundedPlayerPosition)
         {
