@@ -7,15 +7,10 @@ public class SurfaceMovementManager : MonoBehaviour
 {
     private GameObject Player;
     private PlayerMovementManager playerMovementManager;
-    private PlatformManager platformManager;
-    public string platformId;
 
 
     private void Start()
     {
-        platformManager = FindObjectOfType<PlatformManager>();
-        platformId = Guid.NewGuid().ToString();
-        platformManager.SetPlatformToFoundPlatforms(platformId, gameObject);
         Player = GameObject.FindGameObjectWithTag("Player");
     }
 
@@ -28,9 +23,20 @@ public class SurfaceMovementManager : MonoBehaviour
         }
 
         Vector3 worldPos = GetInputWorldPosition(Input.mousePosition);
-
-        playerMovementManager.MovePlayer(worldPos, platformId);
-        
+        float roundedClickedPosition = (float)Math.Round(worldPos.y, 2, MidpointRounding.ToEven);
+        float roundedPlayerPosition = (float)Math.Round(Player.transform.position.y, 2, MidpointRounding.ToEven);
+        if(roundedPlayerPosition == roundedClickedPosition)
+        {
+            playerMovementManager.MovePlayer(worldPos);
+        }
+        else if(roundedClickedPosition < roundedPlayerPosition)
+        {
+            playerMovementManager.MovePlayerToLowerPlatform(worldPos);
+        }
+        else if (roundedClickedPosition > roundedPlayerPosition)
+        {
+            playerMovementManager.MovePlayerToHigherPlatform(worldPos);
+        }
     }
 
     private void Update()
@@ -43,7 +49,7 @@ public class SurfaceMovementManager : MonoBehaviour
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             Vector3 worldPos = GetInputWorldPosition(Input.GetTouch(0).position);
-            playerMovementManager.MovePlayer(worldPos, platformId);
+            playerMovementManager.MovePlayer(worldPos);
         }
     }
 

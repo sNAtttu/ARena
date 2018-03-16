@@ -43,7 +43,6 @@ namespace GoogleARCore
         {
             m_TrackableNativeHandle = nativeHandle;
             m_NativeApi = nativeApi;
-            PlatformId = Guid.NewGuid().ToString();
         }
 
         //// @endcond
@@ -104,19 +103,6 @@ namespace GoogleARCore
             }
         }
 
-        public string PlatformId
-        {
-            get
-            {
-                return platformId;
-            }
-
-            set
-            {
-                platformId = value;
-            }
-        }
-
         /// <summary>
         /// Gets a list of points (in clockwise order) in Unity world space representing a boundary polygon for
         /// the plane.
@@ -126,8 +112,5 @@ namespace GoogleARCore
         {
             m_NativeApi.Plane.GetPolygon(m_TrackableNativeHandle, boundaryPolygonPoints);
         }
-
-        private string platformId;
-
     }
 }

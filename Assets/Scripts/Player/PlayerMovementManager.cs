@@ -14,28 +14,12 @@ public class PlayerMovementManager : MonoBehaviour
     public float PlayerJumpDownPower = 0.5f;
     public float PlayerJumpDuration = 1.0f;
 
-    private string currentPlatform;
     private Vector3 endPoint;
     private PlayerUtilities playerUtilities;
-    private PlatformManager platformManager;
-
+    
     private void Start()
     {
         playerUtilities = GetComponent<PlayerUtilities>();
-        platformManager = FindObjectOfType<PlatformManager>();
-    }
-
-    public void SetPlayerCurrentPlatform(string platformId)
-    {
-        if (platformId != currentPlatform)
-        {
-            currentPlatform = platformId;
-        }
-    }
-
-    public string GetPlayerCurrentPlatform()
-    {
-        return currentPlatform;
     }
 
     private void Update()
@@ -87,51 +71,15 @@ public class PlayerMovementManager : MonoBehaviour
     }
 
 
-    public void MovePlayer(Vector3 nextPosition, string nextPlatformId)
+    public void MovePlayer(Vector3 nextPosition)
     {
-
-        if (currentPlatform == nextPlatformId)
+        if (playerUtilities.GetInputFsmActiveState() == Utilities.PlayerConstants.StateWalking)
         {
-            // Player is moving at the same platform.
-            // No need to jump.
-            if (playerUtilities.GetInputFsmActiveState() == Utilities.PlayerConstants.StateWalking)
-            {
-                playerUtilities.SendInputFsmEvent(Utilities.PlayerConstants.EventRun);
-            }
-            else
-            {
-                playerUtilities.SendInputFsmEvent(Utilities.PlayerConstants.EventWalk);
-            }
+            playerUtilities.SendInputFsmEvent(Utilities.PlayerConstants.EventRun);
         }
         else
         {
-            // Player chose different platform
-            // We need to see if it's lower or higher 
-            // than the current one.
-            GameObject currentPlatformGo = platformManager.GetPlatform(currentPlatform);
-            GameObject nextPlatformGo = platformManager.GetPlatform(nextPlatformId);
-
-            if (currentPlatformGo != null && nextPlatformGo != null)
-            {
-                Vector3 currentPlatformPosition = currentPlatformGo.transform.position;
-                Vector3 nextPlatformPosition = nextPlatformGo.transform.position;
-
-                if (currentPlatformPosition.y > nextPlatformPosition.y)
-                {
-                    // Go lower platform
-                    MovePlayerToLowerPlatform(nextPosition);
-                }
-                else if (currentPlatformPosition.y < nextPlatformPosition.y)
-                {
-                    // Go higher platform
-                    MovePlayerToHigherPlatform(nextPosition);
-                }
-                else
-                {
-                    Debug.LogWarning("Different platform on same level. Weird");
-                }
-            }
-            SetPlayerCurrentPlatform(nextPlatformId);
+            playerUtilities.SendInputFsmEvent(Utilities.PlayerConstants.EventWalk);
         }
         endPoint = nextPosition;
     }
