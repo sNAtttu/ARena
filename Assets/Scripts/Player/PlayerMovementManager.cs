@@ -86,7 +86,7 @@ public class PlayerMovementManager : MonoBehaviour
 
     public void MovePlayerToHigherPlatform(Vector3 nextPosition)
     {
-        if (playerUtilities.IsPlayerJumping())
+        if (playerUtilities.IsPlayerJumping() || playerUtilities.IsPlayerMoving())
         {
             return;
         }
@@ -96,7 +96,7 @@ public class PlayerMovementManager : MonoBehaviour
 
     public void MovePlayerToLowerPlatform(Vector3 nextPosition)
     {
-        if (playerUtilities.IsPlayerJumping())
+        if (playerUtilities.IsPlayerJumping() || playerUtilities.IsPlayerMoving())
         {
             return;
         }
