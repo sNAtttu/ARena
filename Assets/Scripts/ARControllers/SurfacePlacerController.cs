@@ -41,6 +41,16 @@ public class SurfacePlacerController : MonoBehaviour
 
     private GameObject instantiatedObject;
     private DebugOverlay debugOverlay;
+    private TouchHandler touchHandler;
+
+    private void Awake()
+    {
+        touchHandler = GetComponent<TouchHandler>();
+        if (touchHandler == null)
+        {
+            Debug.LogError("Touch handler not found from scene");
+        }
+    }
 
     private void Start()
     {
@@ -75,7 +85,7 @@ public class SurfacePlacerController : MonoBehaviour
         // Disable the snackbar UI when no planes are valid.
         Frame.GetPlanes(m_AllPlanes);
 
-        WriteDebugInformationToScreen();
+        debugOverlay.WritePlaneInformationToScreen(m_NewPlanes, m_AllPlanes);
 
         // If the player has not touched the screen, we are done with this update.
         Touch touch;
@@ -92,84 +102,18 @@ public class SurfacePlacerController : MonoBehaviour
         {
             if (playerInitiated)
             {
-                HandlePlayerMovement(hit);
+                touchHandler.HandlePlayerMovement(hit, instantiatedObject);
                 return;
             }
-            // CREATE ANCHOR USING TOUCH
 
             instantiatedObject = Instantiate(HeroPrefab, hit.Pose.position, hit.Pose.rotation);
 
-            // Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-            // world evolves.
-            var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-            // Andy should look at the camera but still be flush with the plane.
+            // Player should look at the camera but still be flush with the plane.
             instantiatedObject.transform.LookAt(FirstPersonCamera.transform);
             instantiatedObject.transform.rotation = Quaternion.Euler(0.0f,
                 instantiatedObject.transform.rotation.eulerAngles.y, instantiatedObject.transform.rotation.z);
 
-            // Make Andy model a child of the anchor.
-            instantiatedObject.transform.parent = anchor.transform;
             playerInitiated = true;
-        }
-    }
-
-    /// <summary>
-    /// Sends information about clicked coordinates.
-    /// Function checks if the clicked position is on the same platform or does player need
-    /// to move up or down.
-    /// </summary>
-    /// <param name="hit"></param>
-    private void HandlePlayerMovement(TrackableHit hit)
-    {
-        var inputManager = instantiatedObject.GetComponent<PlayerInputManager>();
-        var movementManager = instantiatedObject.GetComponent<PlayerMovementManager>();
-
-        if (inputManager.touchHitPlayer)
-        {
-            inputManager.touchHitPlayer = false;
-            return;
-        }
-
-        Vector3 worldHitPos = hit.Pose.position;
-        Vector3 playerPos = instantiatedObject.transform.position;
-
-        float roundedClickedPosition = (float)Math.Round(worldHitPos.y, 2, MidpointRounding.ToEven);
-        float roundedPlayerPosition = (float)Math.Round(playerPos.y, 2, MidpointRounding.ToEven);
-
-        if (roundedPlayerPosition == roundedClickedPosition)
-        {
-            movementManager.MovePlayer(worldHitPos);
-        }
-        else if (roundedClickedPosition < roundedPlayerPosition)
-        {
-            movementManager.MovePlayerToLowerPlatform(worldHitPos);
-        }
-        else if (roundedClickedPosition > roundedPlayerPosition)
-        {
-            movementManager.MovePlayerToHigherPlatform(worldHitPos);
-        }
-
-        return;
-    }
-
-    private void WriteDebugInformationToScreen()
-    {
-        if (m_NewPlanes.Count != m_AllPlanes.Count)
-        {
-            debugOverlay.SetFoundPlanesText(string.Format("Found planes: {0}", m_AllPlanes.Count));
-        }
-
-        if (m_AllPlanes.Count > 0)
-        {
-            float[] planeSizesX = m_AllPlanes.Select(p => p.ExtentX).ToArray();
-            float[] planeSizesZ = m_AllPlanes.Select(p => p.ExtentZ).ToArray();
-            List<string> planeSizeTexts = new List<string>();
-            for (int i = 0; i < m_AllPlanes.Count; i++)
-            {
-                planeSizeTexts.Add(string.Format("Plane {0} size X: {1} Z: {2}", i, planeSizesX[i], planeSizesZ[i]));
-            }
-            debugOverlay.SetPlaneSizesText(string.Join("\n", planeSizeTexts.ToArray()));
         }
     }
 }
