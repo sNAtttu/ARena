@@ -10,6 +10,7 @@ public class SetupPlayer : MonoBehaviour
     void Start()
     {
         InitializeColliderObjects();
+        LoadPlayerData();
     }
 
     private void InitializeColliderObjects()
@@ -44,6 +45,13 @@ public class SetupPlayer : MonoBehaviour
                 Debug.LogWarning("Unknown object");
             }
         }
+    }
+
+    private void LoadPlayerData()
+    {
+
+        FindObjectOfType<PlayerStats>().SetPlayer(
+            new PlayerBase(100, 80, 100, 100, 5));
     }
 
 }
