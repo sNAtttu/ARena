@@ -51,7 +51,7 @@ public class SetupPlayer : MonoBehaviour
     {
 
         FindObjectOfType<PlayerStats>().SetPlayer(
-            new PlayerBase(100, 80, 100, 100, 5));
+            new PlayerBase(100, 100, 100, 100, 5));
     }
 
 }

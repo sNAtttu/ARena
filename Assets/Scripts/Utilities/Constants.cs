@@ -10,6 +10,8 @@ namespace Utilities
         public static readonly string TagPlayerBody = "PlayerBody";
         public static readonly string TagPlayerLeftArm = "PlayerLeftArm";
         public static readonly string TagPlayerRightArm = "PlayerRightArm";
+        public static readonly string TagPlayerHealthBar = "PlayerHealthbar";
+        public static readonly string TagPlayerStaminaBar = "PlayerStaminabar";
 
         public static readonly string EventTouchHead = "TouchHead";
         public static readonly string EventTouchBody = "TouchBody";

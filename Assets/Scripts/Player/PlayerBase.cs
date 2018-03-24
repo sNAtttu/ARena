@@ -7,12 +7,31 @@ using System;
 public class PlayerBase
 {
     public float MaxHp;
-    public float HealthPoints;
+    private float healthPoints;
     public int MaxStamina;
     public int Stamina;
     public int AttackPower;
 
-    public bool IsDead;
+    public float HealthPoints
+    {
+        get
+        {
+            return healthPoints;
+        }
+
+        set
+        {
+            if(value < 0)
+            {
+                value = 0;
+            }
+            else if(value >= MaxHp)
+            {
+                value = MaxHp;
+            }
+            healthPoints = value;
+        }
+    }
 
     public PlayerBase(float maxHp, float hp, int maxStamina, int stamina, int attackPower)
     {
@@ -23,30 +42,28 @@ public class PlayerBase
         AttackPower = attackPower;
     }
 
-    public float TakeDamage(int damage)
+    public float TakeDamage(float damage)
     {
+        if (HealthPoints == 0)
+        {
+            return 0f;
+        }
         HealthPoints -= damage;
-        CheckIsDead();
         return HealthPoints;
     }
 
-    public float Heal(int healthAmount)
+    public float Heal(float healthAmount)
     {
+        if(HealthPoints == 0)
+        {
+            return 0f;
+        }
         HealthPoints += healthAmount;
         return HealthPoints;
     }
 
-    public void CheckIsDead()
-    {
-        if(HealthPoints <= 0)
-        {
-            IsDead = true;
-        }
-    }
-
     public float GetPlayerHpPercent()
     {
-        Debug.Log(HealthPoints / MaxHp);
         return HealthPoints / MaxHp;
     }
 
