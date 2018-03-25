@@ -23,11 +23,20 @@ namespace Utilities
         public static readonly string EventJumpUp = "JumpUp";
         public static readonly string EventJumpDown = "JumpDown";
         public static readonly string EventLand = "Land";
+        public static readonly string EventOutOfBreath = "OutOfBreath";
+        public static readonly string EventStaminaRegained = "StaminaRegained";
 
         public static readonly string StateWalking = "Walking";
         public static readonly string StateRunning = "Running";
         public static readonly string StateJumpingUp = "JumpingUp";
-        public static readonly string StateJumpingDown = "JumpingDown"; 
+        public static readonly string StateJumpingDown = "JumpingDown";
+        public static readonly string StateNoStamina = "NoStamina";
+
+        public enum PlayerStatusBar
+        {
+            Health, Stamina
+        }
+
     }
 
     public static class EnemyConstants

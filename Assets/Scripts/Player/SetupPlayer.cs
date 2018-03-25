@@ -50,7 +50,7 @@ public class SetupPlayer : MonoBehaviour
     private void LoadPlayerData()
     {
 
-        FindObjectOfType<PlayerStats>().SetPlayer(
+        FindObjectOfType<PlayerStatsActions>().SetPlayer(
             new PlayerBase(100, 100, 100, 100, 5));
     }
 

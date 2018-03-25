@@ -7,10 +7,11 @@ using System;
 public class PlayerBase
 {
     public float MaxHp;
+    public float MaxStamina;
+
     private float healthPoints;
-    public int MaxStamina;
-    public int Stamina;
-    public int AttackPower;
+    private float stamina;
+    private float attackPower;
 
     public float HealthPoints
     {
@@ -33,6 +34,40 @@ public class PlayerBase
         }
     }
 
+    public float Stamina
+    {
+        get
+        {
+            return stamina;
+        }
+
+        set
+        {
+            if (value < 0)
+            {
+                value = 0;
+            }
+            else if (value >= MaxStamina)
+            {
+                value = MaxStamina;
+            }
+            stamina = value;
+        }
+    }
+
+    public float AttackPower
+    {
+        get
+        {
+            return attackPower;
+        }
+
+        set
+        {
+            attackPower = value;
+        }
+    }
+
     public PlayerBase(float maxHp, float hp, int maxStamina, int stamina, int attackPower)
     {
         MaxHp = maxHp;
@@ -42,9 +77,15 @@ public class PlayerBase
         AttackPower = attackPower;
     }
 
+    public float Heal(float healthAmount)
+    {
+        HealthPoints += healthAmount;
+        return HealthPoints;
+    }
+
     public float TakeDamage(float damage)
     {
-        if (HealthPoints == 0)
+        if (HealthPoints <= 0)
         {
             return 0f;
         }
@@ -52,19 +93,30 @@ public class PlayerBase
         return HealthPoints;
     }
 
-    public float Heal(float healthAmount)
+    public float RecoverStamina(float stamina)
     {
-        if(HealthPoints == 0)
+        Stamina += stamina;
+        return Stamina;
+    }
+
+    public float DrainStamina(float stamina)
+    {
+        if (Stamina <= 0)
         {
             return 0f;
         }
-        HealthPoints += healthAmount;
-        return HealthPoints;
+        Stamina -= stamina;
+        return Stamina;
     }
 
     public float GetPlayerHpPercent()
     {
         return HealthPoints / MaxHp;
+    }
+
+    public float GetPlayerStaminaPercent()
+    {
+        return Stamina / MaxStamina;
     }
 
 }
